@@ -4,3 +4,5 @@ Feb 10
 Current project ideas: social meetup Android apps in which people can join nearby groups of similar interests.
 Alternative project ideas: iPhone embedded campus neighborhood emergency system / dorm washing machine usage monitor
 
+Resources:
+https://f-droid.org/repository/browse/?fdfilter=app+usage&fdid=com.nolanlawson.apptracker
