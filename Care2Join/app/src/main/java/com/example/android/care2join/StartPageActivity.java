@@ -20,13 +20,13 @@ public class StartPageActivity extends AppCompatActivity {
         Button logInButton = (Button) findViewById(R.id.login);
         Button createUserButton = (Button) findViewById(R.id.createUser);
 
-//        createUserButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(StartPageActivity.this, Register.class);
-//                startActivity(intent);
-//            }
-//        });
+        createUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StartPageActivity.this, RegisterUserActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 }
