@@ -21,6 +21,24 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".StartPageActivity" />
         </activity>
+
+        <activity android:name=".PostDetailActivity">
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value=".MapActivity"/>-->
+        </activity>
+
+        <activity android:name=".MapActivity">
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".StartPageActivity"/>
+        </activity>
+
+        <activity android:name=".CreatePostActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MapActivity"/>
+        </activity>
     </application>
 
 </manifest>
