@@ -1,54 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:weightSum="1">
 
     <ImageView
+        android:id="@+id/mapDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_dialog_map"
-        android:id="@+id/imageView"
-        android:layout_weight="0.41" />
+        android:layout_weight="0.41"
+        app:srcCompat="@android:drawable/ic_dialog_map" />
 
     <TextView
-        android:text="Owner:"
+        android:id="@+id/ownerTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView3"
-        android:layout_weight="0.02" />
+        android:layout_weight="0.02"
+        android:text="Owner:" />
 
     <EditText
+        android:id="@+id/ownerEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/editText" />
+        android:inputType="textPersonName" />
 
     <TextView
-        android:text="Class:"
+        android:id="@+id/classTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView5" />
+        android:text="Class:" />
 
     <EditText
+        android:id="@+id/classEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/editText2" />
+        android:inputType="textPersonName" />
 
     <TextView
-        android:text="Duration"
+        android:id="@+id/durationTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView6" />
+        android:text="Duration" />
 
     <EditText
+        android:id="@+id/durationEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/editText4" />
+        android:inputType="textPersonName" />
 </LinearLayout>

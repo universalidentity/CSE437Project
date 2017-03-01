@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import static android.R.attr.start;
+
 /**
  * Created by cyoo0706 on 2/22/17.
  */
@@ -28,5 +30,12 @@ public class StartPageActivity extends AppCompatActivity {
             }
         });
 
+        logInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View view) {
+                Intent intent = new Intent(StartPageActivity.this, MapActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
