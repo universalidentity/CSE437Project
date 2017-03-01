@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "999441955418",
+    "firebase_url": "https://caretojoin-49bce.firebaseio.com",
+    "project_id": "caretojoin-49bce",
+    "storage_bucket": "caretojoin-49bce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999441955418:android:ecc79f36595ccef1",
+        "android_client_info": {
+          "package_name": "com.example.labuser.caretojoin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "999441955418-fmo30non2rqekfnoovjl1u4ddtob4008.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.labuser.caretojoin",
+            "certificate_hash": "94003bd51d162dfb2b8961c1438f8a8bb783d521"
+          }
+        },
+        {
+          "client_id": "999441955418-7fc3esbegmvt1mca9f4ejhjlgv58e31q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtCYK_mUkLiLjlugurYW_OT3XTqEeyUvI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "999441955418-7fc3esbegmvt1mca9f4ejhjlgv58e31q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
