@@ -20,6 +20,34 @@ public class Post {
         this.mDuration = duration;
     }
 
+    //Getters
+    public int getmUserID() {
+        return mUserID;
+    }
 
+    public String getmCourse() {
+        return mCourse;
+    }
+
+    public String getmLocation() {
+        return mLocation;
+    }
+
+    public Time getmDuration() {
+        return mDuration;
+    }
+
+    //Setters
+    public void setmCourse(String mCourse) {
+        this.mCourse = mCourse;
+    }
+
+    public void setmLocation(String mLocation) {
+        this.mLocation = mLocation;
+    }
+
+    public void setmDuration(Time mDuration) {
+        this.mDuration = mDuration;
+    }
 
 }
