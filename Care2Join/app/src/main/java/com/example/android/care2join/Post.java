@@ -1,5 +1,7 @@
 package com.example.android.care2join;
 
+import java.sql.Time;
+
 /**
  * Created by cyoo0706 on 2/28/17.
  */
@@ -7,11 +9,17 @@ package com.example.android.care2join;
 public class Post {
     private final int mUserID;
     private String mCourse, mLocation;
+    private Time mDuration;
 //    private LatLng mCoordinates;
 
-    public Post(int userID, String course, String location) {
+
+    public Post(int userID, String course, String location, Time duration) {
         this.mUserID = userID;
         this.mCourse = course;
         this.mLocation = location;
+        this.mDuration = duration;
     }
+
+
+
 }
