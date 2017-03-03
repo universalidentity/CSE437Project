@@ -8,10 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Properties;
+
+import javax.xml.datatype.Duration;
 
 /**
  * Created by cyoo0706 on 3/2/17.
@@ -34,7 +33,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
         Post currentPost = getItem(position);
 
         TextView userView = (TextView) listItemView.findViewById(R.id.userTextView);
-        userView.setText(currentPost.getmUserID());
+        userView.setText(Integer.toString(currentPost.getmUserID()));
 
         TextView courseView = (TextView) listItemView.findViewById(R.id.courseTextView);
         courseView.setText(currentPost.getmCourse());
@@ -43,7 +42,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
         locationView.setText(currentPost.getmLocation());
 
         TextView durationView = (TextView) listItemView.findViewById(R.id.durationTextView);
-        durationView.setText(currentPost.getmLocation());
+        durationView.setText(currentPost.getmDuration());
 
     return listItemView;
     }
