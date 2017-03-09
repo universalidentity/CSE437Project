@@ -112,7 +112,7 @@ public class StartPageActivity extends AppCompatActivity {
                         else{
                             Toast.makeText(StartPageActivity.this, R.string.sign_in_success,
                                     Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(StartPageActivity.this, MapActivity.class);
+                                Intent intent = new Intent(StartPageActivity.this, BrowseActivity.class);
                                 startActivity(intent);
                         }
 

@@ -18,27 +18,32 @@
 
         <activity android:name=".RegisterUserActivity">
             <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".StartPageActivity" />
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".StartPageActivity" />
+        </activity>
+
+        <activity
+            android:name=".BrowseActivity"
+            android:label="@string/title_activity_browse"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".StartPageActivity" />
         </activity>
 
         <activity android:name=".PostDetailActivity">
-            <!--<meta-data-->
-                <!--android:name="android.support.PARENT_ACTIVITY"-->
-                <!--android:value=".MapActivity"/>-->
-        </activity>
-
-        <activity android:name=".MapActivity">
             <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".StartPageActivity"/>
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".BrowseActivity" />
         </activity>
 
         <activity android:name=".CreatePostActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MapActivity"/>
+                android:value=".BrowseActivity" />
         </activity>
+
     </application>
 
 </manifest>
