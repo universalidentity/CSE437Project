@@ -19,7 +19,7 @@ public class BrowseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.browse_activity);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.newPost);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
