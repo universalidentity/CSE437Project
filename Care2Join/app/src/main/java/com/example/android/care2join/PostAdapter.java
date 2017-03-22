@@ -33,7 +33,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
         Post currentPost = getItem(position);
 
         TextView userView = (TextView) listItemView.findViewById(R.id.userTextView);
-        userView.setText(Integer.toString(currentPost.getmUserID()));
+        userView.setText(currentPost.getmUserID());
 
         TextView courseView = (TextView) listItemView.findViewById(R.id.courseTextView);
         courseView.setText(currentPost.getmCourse());

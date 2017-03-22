@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,21 +34,29 @@ public class CreatePostActivity extends AppCompatActivity {
         mcreate_post_submit = (Button) findViewById(R.id.create_post_submit);
         mclass = (EditText) findViewById(R.id.create_post_class);
         mduration = (EditText) findViewById(R.id.create_post_duration);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference mDatabase = database.getReference("User_posts");
 
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference mDatabase = database.getReference("Posts");
+        final DatabaseReference uDatabase = database.getReference("User_Posts");
 
         mAuth = FirebaseAuth.getInstance();
         mcreate_post_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Toast.makeText(CreatePostActivity.this, "Here1",
+                        Toast.LENGTH_SHORT).show();
                 final FirebaseUser user = mAuth.getCurrentUser();
                 if (user != null) {
+                    Toast.makeText(CreatePostActivity.this, "Here2",
+                            Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, user.getUid());
                     // User is signed in
-                    Post newpost = new Post(user.getUid(),mclass.getText().toString(),)
-                    mDatabase.child("posts").child(postid).setValue();
-                    mDatabase.child("posts").child()
+                    String userid = user.getUid();
+                    Post newpost = new Post(userid,mclass.getText().toString(), mclass.getText().toString(),mduration.getText().toString());
+                    String postkey = mDatabase.push().getKey();
+                    mDatabase.child(postkey).setValue(newpost);
+                    uDatabase.child(userid).push().setValue(postkey);
                 }
 
 

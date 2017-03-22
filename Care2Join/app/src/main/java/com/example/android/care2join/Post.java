@@ -9,7 +9,7 @@ import javax.xml.datatype.Duration;
  */
 
 public class Post {
-    private final int mUserID;
+    private final String mUserID;
     private String mCourse, mLocation, mDuration;
 //    private Duration mDuration;
 //    private LatLng mCoordinates;
@@ -22,7 +22,7 @@ public class Post {
 //        this.mDuration = duration;
 //    }
 
-    public Post(int userID, String course, String location, String duration) {
+    public Post(String userID, String course, String location, String duration) {
         this.mUserID = userID;
         this.mCourse = course;
         this.mLocation = location;
@@ -31,7 +31,7 @@ public class Post {
 
 
     //Getters
-    public int getmUserID() {
+    public String getmUserID() {
         return mUserID;
     }
 

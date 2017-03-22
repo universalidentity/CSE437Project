@@ -22,9 +22,9 @@ public class MapActivity extends AppCompatActivity {
 
         final ArrayList<Post> browsingList = new ArrayList<>();
         PostAdapter adapter = new PostAdapter(this, browsingList);
-        adapter.add(new Post(321, "CSE 437", "Olin 1st Floor", "1 hr" ));
-        adapter.add(new Post(543, "CSE 231", "DUC 233", "4 hr, 30 min"));
-        adapter.add(new Post(678, "CSE 131", "Simon 021", "2 hr, 15 min"));
+        adapter.add(new Post("321", "CSE 437", "Olin 1st Floor", "1 hr" ));
+        adapter.add(new Post("543", "CSE 231", "DUC 233", "4 hr, 30 min"));
+        adapter.add(new Post("678", "CSE 131", "Simon 021", "2 hr, 15 min"));
 
         ListView listView = (ListView) findViewById(R.id.postList);
         listView.setAdapter(adapter);
