@@ -3,16 +3,23 @@ package com.example.android.care2join;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 
-public class BrowseActivity extends AppCompatActivity {
+public class BrowseActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +27,13 @@ public class BrowseActivity extends AppCompatActivity {
         setContentView(R.layout.browse_activity);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.newPost);
+
+//        Fragment mapFragment = FragmentManager.findFragmentById(R.id.map);
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,6 +58,22 @@ public class BrowseActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        GoogleMapOptions options = new GoogleMapOptions();
+        options.mapType(GoogleMap.MAP_TYPE_NORMAL);
+        options.zoomControlsEnabled(true);
+        options.zoomGesturesEnabled(true);
+        MapFragment.newInstance(options);
+
+        LatLng wustl = new LatLng(38.6488, -90.3108);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(wustl, 20));
+
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(wustl));
     }
 
 }
