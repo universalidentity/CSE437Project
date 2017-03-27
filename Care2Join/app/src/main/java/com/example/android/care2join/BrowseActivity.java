@@ -14,8 +14,12 @@ import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+
+import static android.os.Build.VERSION_CODES.N;
 
 public class BrowseActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -28,7 +32,6 @@ public class BrowseActivity extends AppCompatActivity implements OnMapReadyCallb
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.newPost);
 
-//        Fragment mapFragment = FragmentManager.findFragmentById(R.id.map);
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -70,10 +73,11 @@ public class BrowseActivity extends AppCompatActivity implements OnMapReadyCallb
         options.zoomGesturesEnabled(true);
         MapFragment.newInstance(options);
 
-        LatLng wustl = new LatLng(38.6, -90.3);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(wustl, 20));
-
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(wustl));
+        LatLng wustl = new LatLng(38.6488, -90.3108);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(wustl, 50));
+        mMap.addMarker(new MarkerOptions()
+            .title("Wustl")
+            .position(wustl));
     }
 
 }
