@@ -44,9 +44,9 @@ public class BrowseActivity extends AppCompatActivity implements OnMapReadyCallb
 
         final ArrayList<Post> browsingList = new ArrayList<>();
         PostAdapter adapter = new PostAdapter(this, browsingList);
-        adapter.add(new Post(321, "CSE 437", "Olin 1st Floor", "1 hr"));
-        adapter.add(new Post(543, "CSE 231", "DUC 233", "4 hr, 30 min"));
-        adapter.add(new Post(678, "CSE 131", "Simon 021", "2 hr, 15 min"));
+        adapter.add(new Post("321", "CSE 437", "Olin 1st Floor", "1 hr"));
+        adapter.add(new Post("543", "CSE 231", "DUC 233", "4 hr, 30 min"));
+        adapter.add(new Post("678", "CSE 131", "Simon 021", "2 hr, 15 min"));
 
         ListView listView = (ListView) findViewById(R.id.postList);
         listView.setAdapter(adapter);
@@ -70,7 +70,7 @@ public class BrowseActivity extends AppCompatActivity implements OnMapReadyCallb
         options.zoomGesturesEnabled(true);
         MapFragment.newInstance(options);
 
-        LatLng wustl = new LatLng(38.6488, -90.3108);
+        LatLng wustl = new LatLng(38.6, -90.3);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(wustl, 20));
 
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(wustl));
