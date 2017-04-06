@@ -13,11 +13,16 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -40,8 +45,8 @@ import static android.os.Build.VERSION_CODES.N;
 
 public class BrowseActivity extends AppCompatActivity
         implements OnMapReadyCallback,
-            GoogleApiClient.OnConnectionFailedListener,
-            GoogleApiClient.ConnectionCallbacks{
+        GoogleApiClient.OnConnectionFailedListener,
+        GoogleApiClient.ConnectionCallbacks {
 
     private static final String TAG = BrowseActivity.class.getSimpleName();
     private GoogleMap mMap;
@@ -61,6 +66,12 @@ public class BrowseActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
+            mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
+        }
+
         setContentView(R.layout.browse_activity);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -69,13 +80,22 @@ public class BrowseActivity extends AppCompatActivity
                 .addConnectionCallbacks(this)
                 .addApi(LocationServices.API)
                 .build();
+        mGoogleApiClient.connect();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.newPost);
+
+        Button button = (Button) findViewById(R.id.location);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String string = "" + mLastKnownLocation.getLatitude() + ", " + mLastKnownLocation.getLongitude();
+                Toast.makeText(BrowseActivity.this, string, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,10 +124,20 @@ public class BrowseActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if (mMap != null) {
+            outState.putParcelable(KEY_CAMERA_POSITION, mMap.getCameraPosition());
+            outState.putParcelable(KEY_LOCATION, mLastKnownLocation);
+            super.onSaveInstanceState(outState);
+        }
+    }
+
+    @Override
     public void onConnected(@Nullable Bundle bundle) {
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+//                .findFragmentById(R.id.map);
+//        mapFragment.getMapAsync(this);
+        Log.v(TAG, "Connection Successful");
     }
 
     @Override
@@ -124,9 +154,47 @@ public class BrowseActivity extends AppCompatActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         mMap.getUiSettings().setZoomControlsEnabled(true);
+        getDeviceLocation();
 
+//        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+//
+//            @Override
+//            // Return null here, so that getInfoContents() is called next.
+//            public View getInfoWindow(Marker arg0) {
+//                return null;
+//            }
+//
+//            @Override
+//            public View getInfoContents(Marker marker) {
+//                // Inflate the layouts for the info window, title and snippet.
+//                View infoWindow = getLayoutInflater().inflate(R.layout.custom_info_contents,
+//                        (FrameLayout)findViewById(R.id.map), false);
+//
+//                return infoWindow;
+//            }
+//        });
+//        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+//                Manifest.permission.ACCESS_FINE_LOCATION)
+//                == PackageManager.PERMISSION_GRANTED) {
+//            mLocationPermissionGranted = true;
+//        } else {
+//            ActivityCompat.requestPermissions(this,
+//                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+//                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+//        }
+//
+//        if (mLocationPermissionGranted) {
+//            Log.d(TAG, "Permission Granted");
+//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
+//            mMap.addMarker(new MarkerOptions()
+//            .title("Wustl")
+//            .position(mDefaultLocation));
+//        }
+
+    }
+
+    private void getDeviceLocation() {
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -137,15 +205,31 @@ public class BrowseActivity extends AppCompatActivity
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
 
+        /*
+         * Get the best and most recent location of the device, which may be null in rare
+         * cases when a location is not available.
+         */
         if (mLocationPermissionGranted) {
             Log.d(TAG, "Permission Granted");
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-            mMap.addMarker(new MarkerOptions()
-            .title("Wustl")
-            .position(mDefaultLocation));
+            mLastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         }
 
-
+        // Set the map's camera position to the current location of the device.
+        if (mCameraPosition != null) {
+            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
+        } else if (mLastKnownLocation != null) {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(mLastKnownLocation.getLatitude(),
+                            mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+        } else {
+            Log.d(TAG, "Current location is null. Using defaults.");
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
+            mMap.addMarker(new MarkerOptions()
+                    .title("Wustl")
+                    .position(mDefaultLocation));
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        }
     }
+
 
 }

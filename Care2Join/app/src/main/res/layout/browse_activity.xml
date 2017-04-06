@@ -25,6 +25,12 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"/>
 
+        <Button
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current Location"/>
+
         <ListView
             android:id="@+id/postList"
             android:layout_width="match_parent"
