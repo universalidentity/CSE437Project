@@ -2,9 +2,11 @@ package com.example.android.care2join;
 
 import android.*;
 import android.Manifest;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -15,10 +17,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -41,11 +48,18 @@ import java.util.ArrayList;
 public class BrowseActivity extends AppCompatActivity
         implements LocationListener, OnMapReadyCallback,
         GoogleApiClient.OnConnectionFailedListener,
-        GoogleApiClient.ConnectionCallbacks {
+        GoogleApiClient.ConnectionCallbacks,
+        SearchView.OnQueryTextListener {
 
     private static final String TAG = BrowseActivity.class.getSimpleName();
+
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
+
+    private SearchView searchView;
+    private MenuItem searchMenuItem;
+    private PostAdapter adapter;
+
     private GoogleApiClient mGoogleApiClient;
     private LocationManager mLocationManager;
     private android.location.LocationListener mLocationListener;
@@ -150,8 +164,21 @@ public class BrowseActivity extends AppCompatActivity
             }
         });
 
+        //Creating searchable interface on BrowseActivity
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (android.widget.SearchView) findViewById(R.id.query);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(this);
+
+        initPostList();
+//        setActionBar();
+    }
+
+    //Create Post List with ArrayList and PostAdapter
+    private void initPostList() {
         final ArrayList<Post> browsingList = new ArrayList<>();
-        PostAdapter adapter = new PostAdapter(this, browsingList);
+        adapter = new PostAdapter(this, browsingList);
         adapter.add(new Post("321", "CSE 437", "Olin 1st Floor", "1 hr"));
         adapter.add(new Post("543", "CSE 231", "DUC 233", "4 hr, 30 min"));
         adapter.add(new Post("678", "CSE 131", "Simon 021", "2 hr, 15 min"));
@@ -166,6 +193,24 @@ public class BrowseActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_menu, menu);
+
+        SearchManager searchManager = (SearchManager)
+                getSystemService(Context.SEARCH_SERVICE);
+        searchMenuItem = menu.findItem(R.id.search);
+        searchView = (SearchView) searchMenuItem.getActionView();
+
+        searchView.setSearchableInfo(searchManager.
+                getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(this);
+
+        return true;
     }
 
     @Override
@@ -227,6 +272,17 @@ public class BrowseActivity extends AppCompatActivity
         Log.d(TAG, "Location updates have stopped");
     }
 
+//    private void setActionBar() {
+////        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+////        getSupportActionBar().setTitle("Posts");
+//
+//        Typeface typeface = Typeface.createFromAsset(this.getAssets(), "fonts/vegur_2.otf");
+//        int titleId = getResources().getIdentifier("action_bar_title", "id", "android");
+//        TextView actionBarTitle = (TextView) (this.findViewById(titleId));
+//        actionBarTitle.setTextColor(getResources().getColor(R.color.colorAccent));
+//        actionBarTitle.setTypeface(typeface);
+//    }
+
     private void getDeviceLocation() {
         //Checks for permission to access Fine Location in Manifest
         //If permission is not granted, requests from user
@@ -266,5 +322,16 @@ public class BrowseActivity extends AppCompatActivity
     @Override
     public void onLocationChanged(Location location) {
         Log.d(TAG, "Location has been updated");
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        adapter.getFilter().filter(s);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
     }
 }
