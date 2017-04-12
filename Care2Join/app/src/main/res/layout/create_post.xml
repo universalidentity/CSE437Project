@@ -33,6 +33,7 @@
         android:text="Location:" />
 
     <Button
+        android:id="@+id/drop_pin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Drop Pin" />
