@@ -19,23 +19,23 @@
         android:paddingTop="@dimen/activity_vertical_margin">
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-            android:name="com.google.android.gms.maps.MapFragment"
             android:id="@+id/map"
-            android:layout_marginBottom="8dp"
+            android:name="com.google.android.gms.maps.MapFragment"
             android:layout_width="match_parent"
-            android:layout_height="250dp"/>
+            android:layout_height="250dp"
+            android:layout_marginBottom="8dp" />
 
         <SearchView
+            android:id="@+id/query"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/query"
             android:layout_weight="1" />
 
         <Button
             android:id="@+id/location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Current Location"/>
+            android:text="Current Location" />
 
         <ListView
             android:id="@+id/postList"
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@android:drawable/ic_input_add"/>
+            app:srcCompat="@drawable/ic_add_circle_outline_black_48dp" />
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>
