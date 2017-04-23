@@ -8,7 +8,6 @@
         android:id="@+id/userTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:textSize="18sp" />
 
     <TextView
@@ -16,32 +15,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/userTextView"
-
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/locationTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/courseTextView"
-
         android:textSize="18sp" />
 
     <TextView
         android:id="@+id/durationTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/locationTextView"
+        android:layout_below="@+id/courseTextView"
 
         android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/deleteButton"
-        android:layout_width="90dp"
-        android:layout_height="match_parent"
-        android:visibility="invisible"
-        android:layout_alignParentRight="true"
-        android:text="Delete" />
 
 
 </RelativeLayout>

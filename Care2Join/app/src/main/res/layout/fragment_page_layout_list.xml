@@ -7,13 +7,19 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.android.care2join.PageFragment">
+
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_query" />
+
     <ListView
         android:id="@+id/postList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="8dp"
-        android:layout_below="@+id/map"/>
+        android:layout_below="@+id/list_query"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/newPost"

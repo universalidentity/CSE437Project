@@ -1,12 +1,19 @@
 package com.example.android.care2join;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -16,35 +23,140 @@ import javax.xml.datatype.Duration;
  * Created by cyoo0706 on 3/2/17.
  */
 
-public class PostAdapter extends ArrayAdapter<Post> {
-    public PostAdapter(Activity context, ArrayList<Post> posts) {
-        super(context, 0, posts);
+public class PostAdapter extends BaseAdapter implements Filterable {
+    private FragmentActivity mActivity;
+    private PostFilter mPostFilter;
+    private ArrayList<Post> mPostList;
+    private ArrayList<Post> filteredList;
+
+    public PostAdapter(FragmentActivity activity, ArrayList<Post> postList){
+        this.mActivity = activity;
+        this.mPostList = postList;
+        this.filteredList = postList;
+
+        getFilter();
     }
 
-    @NonNull
+
+//    @NonNull
+//    @Override
+//    public View getView(int position, View convertView, ViewGroup parent) {
+//        View listItemView = convertView;
+//        if (listItemView == null) {
+//            listItemView = LayoutInflater.from(getContext()).inflate(
+//                    R.layout.list_item, parent, false);
+//        }
+//
+//        Post currentPost = getItem(position);
+//
+//        TextView userView = (TextView) listItemView.findViewById(R.id.userTextView);
+//        userView.setText(currentPost.getmPostID());
+//
+//        TextView courseView = (TextView) listItemView.findViewById(R.id.courseTextView);
+//        courseView.setText(currentPost.getmCourse());
+//
+////        TextView locationView = (TextView) listItemView.findViewById(R.id.locationTextView);
+////        locationView.setText(currentPost.getmLatitude().toString());
+//
+//        TextView durationView = (TextView) listItemView.findViewById(R.id.durationTextView);
+//        durationView.setText(currentPost.getmDuration());
+//
+//    return listItemView;
+//    }
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View listItemView = convertView;
-        if (listItemView == null) {
-            listItemView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.list_item, parent, false);
+    public int getCount() {
+        return filteredList.size();
+    }
+
+    @Override
+    public Object getItem(int i) {
+        return filteredList.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
+    public void add(Post p){
+        mPostList.add(p);
+    }
+
+    public void clear(){
+        mPostList.clear();
+    }
+
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        final ViewHolder holder;
+        final Post post = (Post) getItem(i);
+
+        if(view == null){
+            LayoutInflater layoutInflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = layoutInflater.inflate(R.layout.list_item, viewGroup, false);
+            holder = new ViewHolder();
+            holder.user = (TextView) view.findViewById(R.id.userTextView);
+            holder.course = (TextView) view.findViewById(R.id.courseTextView);
+            holder.duration = (TextView) view.findViewById(R.id.durationTextView);
+            view.setTag(holder);
+        } else {
+
+            holder = (ViewHolder) view.getTag();
         }
 
-        Post currentPost = getItem(position);
+        holder.course.setText(post.getmCourse());
+        holder.duration.setText(post.getmDuration());
+        holder.user.setText(post.getmEmail());
 
-        TextView userView = (TextView) listItemView.findViewById(R.id.userTextView);
-        userView.setText(currentPost.getmUserID());
+        return view;
+    }
 
-        TextView courseView = (TextView) listItemView.findViewById(R.id.courseTextView);
-        courseView.setText(currentPost.getmCourse());
+    static class ViewHolder {
+        TextView course;
+        TextView user;
+        TextView duration;
+    }
 
-        TextView locationView = (TextView) listItemView.findViewById(R.id.locationTextView);
-        locationView.setText(currentPost.getmLocation());
+    @Override
+    public Filter getFilter() {
+        if (mPostFilter == null) {
+            mPostFilter = new PostFilter();
+        }
 
-        TextView durationView = (TextView) listItemView.findViewById(R.id.durationTextView);
-        durationView.setText(currentPost.getmDuration());
+        return mPostFilter;
+    }
 
-    return listItemView;
+    private class PostFilter extends Filter {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults filterResults = new FilterResults();
+            if (constraint != null && constraint.length() > 0) {
+                ArrayList<Post> tempList = new ArrayList<Post>();
+
+                // search content in friend list
+                for (Post p : mPostList) {
+                    if (p.getmCourse().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        tempList.add(p);
+                    }
+                }
+
+                filterResults.count = tempList.size();
+                filterResults.values = tempList;
+            } else {
+                filterResults.count = mPostList.size();
+                filterResults.values = mPostList;
+            }
+
+            return filterResults;
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            filteredList = (ArrayList<Post>) results.values;
+            notifyDataSetChanged();
+        }
     }
 }
 

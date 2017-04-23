@@ -9,9 +9,10 @@ import javax.xml.datatype.Duration;
  */
 
 public class Post {
-    public final String mUserID, mPostID;
-    public String mCourse, mLocation, mDuration;
-    
+
+    private final String mPostID, mUserID,mEmail;
+    private String mCourse,  mDuration;
+    private String mLongitude,mLatitude;
 //    private Duration mDuration;
 //    private LatLng mCoordinates;
 
@@ -27,35 +28,42 @@ public class Post {
         this.mPostID = "";
         this.mUserID = "";
         this.mCourse = "";
-        this.mLocation = "";
+        this.mLongitude = "";
+        this.mLatitude = "";
         this.mDuration = "";
+        this.mEmail = "";
     }
-    public Post(String postID, String userID, String course, String location, String duration) {
+
+    public Post(String postID, String userID, String useremail, String course, String latitude, String longitude, String duration) {
         this.mPostID = postID;
         this.mUserID = userID;
+        this.mEmail = useremail;
         this.mCourse = course;
-        this.mLocation = location;
+        this.mLongitude = longitude;
+        this.mLatitude = latitude;
         this.mDuration = duration;
     }
 
 
     //Getters
-    public String getmPostID(){ return mPostID;}
-    public String getmUserID() {
-        return mUserID;
+    public String getmPostID() {
+        return mPostID;
     }
 
+    public String getmUserID() {return mUserID;}
     public String getmCourse() {
         return mCourse;
     }
 
-    public String getmLocation() {
-        return mLocation;
+    public String getmLongitude() {
+        return mLongitude;
     }
+    public String getmLatitude() {return mLatitude;}
 
     public String getmDuration() {
         return mDuration;
     }
+    public String getmEmail(){return mEmail;}
 
 //    public Duration getmDuration() {
 //        return mDuration;
@@ -66,8 +74,12 @@ public class Post {
         this.mCourse = mCourse;
     }
 
-    public void setmLocation(String mLocation) {
-        this.mLocation = mLocation;
+    public void setmLatitude(String mLatitude) {
+        this.mLatitude = mLatitude;
+    }
+
+    public void setmLongitude(String mLongitude) {
+        this.mLongitude = mLongitude;
     }
 
     public void setmDuration(String mDuration) {
