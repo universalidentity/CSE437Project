@@ -42,7 +42,7 @@
         android:text="Location:" />
 
     <Button
-        android:id="@+id/drop_pin"
+        android:id="@+id/save_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/locationTextView"
@@ -54,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_below="@id/drop_pin"
+        android:layout_below="@id/save_location"
         android:layout_centerHorizontal="true"
         android:text="Submit" />
 </RelativeLayout>
