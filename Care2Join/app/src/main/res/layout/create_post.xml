@@ -1,51 +1,60 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/classTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
+        android:layout_centerHorizontal="true"
         android:text="Class:" />
 
     <EditText
         android:id="@+id/create_post_class"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/classTextView" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/durationTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/create_post_class"
         android:padding="8dp"
         android:text="Duration:" />
 
     <EditText
         android:id="@+id/create_post_duration"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/durationTextView" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/locationTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/create_post_duration"
         android:padding="8dp"
+        android:layout_centerHorizontal="true"
         android:text="Location:" />
 
     <Button
         android:id="@+id/drop_pin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/locationTextView"
+        android:layout_centerHorizontal="true"
         android:text="Drop Pin" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enter Location" />
 
     <Button
         android:id="@+id/create_post_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit"/>
-</LinearLayout>
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/drop_pin"
+        android:layout_centerHorizontal="true"
+        android:text="Submit" />
+</RelativeLayout>

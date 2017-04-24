@@ -79,7 +79,7 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
 
 
     private static final LatLng mDefaultLocation = new LatLng(38.6488, -90.3108);
-    private static final int DEFAULT_ZOOM = 15;
+    private static final int DEFAULT_ZOOM = 18;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted;
 
