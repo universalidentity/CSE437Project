@@ -30,7 +30,6 @@ public class StartPageActivity extends AppCompatActivity {
     private Button createUserButton;
     private Button signInButton;
 
-
     private static final String TAG = "EmailPassword";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +41,6 @@ public class StartPageActivity extends AppCompatActivity {
         msign_in_pw = (EditText) findViewById(R.id.sign_in_pw);
         createUserButton = (Button) findViewById(R.id.createUser);
         signInButton = (Button) findViewById(R.id.login);
-
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,11 +76,13 @@ public class StartPageActivity extends AppCompatActivity {
         };
 
     }
+
     @Override
     public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
     }
+
     @Override
     public void onStop() {
         super.onStop();
@@ -90,9 +90,9 @@ public class StartPageActivity extends AppCompatActivity {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
+
     private void signIn(String email, String password) {
         Log.d(TAG, "signIn:" + email);
-
 
         // [START sign_in_with_email]
         mAuth.signInWithEmailAndPassword(email, password)
@@ -126,13 +126,12 @@ public class StartPageActivity extends AppCompatActivity {
                 });
         // [END sign_in_with_email]
     }
+
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
         if (!validateForm()) {
             return;
         }
-
-        //showProgressDialog();
 
         // [START create_user_with_email]
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -156,8 +155,8 @@ public class StartPageActivity extends AppCompatActivity {
                 });
         // [END create_user_with_email]
     }
-    private void sendEmailVerification() {
 
+    private void sendEmailVerification() {
 
         // Send verification email
         // [START send_email_verification]
@@ -183,14 +182,15 @@ public class StartPageActivity extends AppCompatActivity {
                 });
         // [END send_email_verification]
     }
+
     private void signOut() {
         mAuth.signOut();
-
     }
+
     private boolean validateForm() {
         boolean valid = true;
-
         String email = msign_in_email.getText().toString();
+
         if (TextUtils.isEmpty(email)) {
             msign_in_email.setError("Required.");
             valid = false;
@@ -199,14 +199,12 @@ public class StartPageActivity extends AppCompatActivity {
         }
 
         String password = msign_in_pw.getText().toString();
+
         if (TextUtils.isEmpty(password)) {
             valid = false;
         } else {
             msign_in_pw.setError(null);
         }
-
         return valid;
     }
-
-
 }

@@ -35,6 +35,8 @@ import com.google.android.gms.location.LocationRequest;
 
 /**
  * Created by cyoo0706 on 2/24/17.
+ * Class for CreatePostActivity
+ * Screen where user can input and save data to make a new post.
  */
 
 public class CreatePostActivity extends AppCompatActivity implements com.google.android.gms.location.LocationListener,
@@ -61,6 +63,9 @@ public class CreatePostActivity extends AppCompatActivity implements com.google.
     private boolean mLocationPermissionGranted;
     private int postid = 0;
 
+    /**
+     * Method to make GoogleLocationAPI Location Request
+     */
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(INTERVAL);
@@ -68,6 +73,10 @@ public class CreatePostActivity extends AppCompatActivity implements com.google.
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
+    /**
+     * Method which calls necessary
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +91,6 @@ public class CreatePostActivity extends AppCompatActivity implements com.google.
             mLastKnownLocation.setLatitude(extras.getDouble("Latitude"));
         }
         mSaveCurrentLocation = (Button) findViewById(R.id.save_location);
-
         mcreate_post_submit = (Button) findViewById(R.id.create_post_submit);
         mclass = (EditText) findViewById(R.id.create_post_class);
         mduration = (EditText) findViewById(R.id.create_post_duration);
@@ -161,22 +169,17 @@ public class CreatePostActivity extends AppCompatActivity implements com.google.
                 if(getIntent().getIntExtra("EditPost",0)==1){
                     final FirebaseUser user = mAuth.getCurrentUser();
                     if (user != null) {
-
-
                         String userid = user.getUid();
 
                         String postkey = getIntent().getStringExtra("mPostID");
                         String email = user.getEmail().split("@")[0];
                         Post newpost = new Post(postkey, userid, email, mclass.getText().toString(),Double.toString(mLastKnownLocation.getLatitude()),Double.toString(mLastKnownLocation.getLongitude()), mduration.getText().toString());
                         mDatabase.child(postkey).setValue(newpost);
-
                     }
                 }
                 else {
-
                     final FirebaseUser user = mAuth.getCurrentUser();
                     if (user != null) {
-
                         Log.d(TAG, user.getUid());
                         // User is signed in
                         String userid = user.getUid();
@@ -191,37 +194,55 @@ public class CreatePostActivity extends AppCompatActivity implements com.google.
                         uDatabase.child(userid).child(userkey).setValue(newuserpost);
                     }
                 }
-
                 Intent intent = new Intent(CreatePostActivity.this, Tab_activity.class);
                 startActivity(intent);
             }
         });
-
-
     }
+
+    /**
+     * Response for successful connection
+     * Calls on startLocationUpdates
+     * @param bundle
+     */
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         Log.v(TAG, "Connection Successful");
         startLocationUpdates();
     }
 
+    /**
+     * Response for failed connection
+     * @param connectionResult
+     */
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "Play services connection failed: ConnectionResult.getErrorCode() = "
                 + connectionResult.getErrorCode());
     }
 
+    /**
+     * Response for connection suspension
+     * @param i
+     */
     @Override
     public void onConnectionSuspended(int i) {
         Log.d(TAG, "Play services connection suspended");
     }
 
+    /**
+     * Response for pause in app use
+     * Calls on stopLocationUpdates
+     */
     @Override
     protected void onPause() {
         super.onPause();
         stopLocationUpdates();
     }
 
+    /**
+     * Begin location updates (when app opens)
+     */
     protected void startLocationUpdates() {
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION)
@@ -237,14 +258,20 @@ public class CreatePostActivity extends AppCompatActivity implements com.google.
         Log.d(TAG, "Location update started");
     }
 
+    /**
+     * End location updates (for cases when app closes)
+     */
     protected void stopLocationUpdates() {
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         Log.d(TAG, "Location updates have stopped");
     }
 
+    /**
+     * Response for handling change in location
+     * @param location
+     */
     @Override
     public void onLocationChanged(Location location) {
         Log.d(TAG, "Location has been updated");
     }
 }
-/**/

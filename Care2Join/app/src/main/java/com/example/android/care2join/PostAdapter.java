@@ -37,32 +37,6 @@ public class PostAdapter extends BaseAdapter implements Filterable {
         getFilter();
     }
 
-
-//    @NonNull
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//        View listItemView = convertView;
-//        if (listItemView == null) {
-//            listItemView = LayoutInflater.from(getContext()).inflate(
-//                    R.layout.list_item, parent, false);
-//        }
-//
-//        Post currentPost = getItem(position);
-//
-//        TextView userView = (TextView) listItemView.findViewById(R.id.userTextView);
-//        userView.setText(currentPost.getmPostID());
-//
-//        TextView courseView = (TextView) listItemView.findViewById(R.id.courseTextView);
-//        courseView.setText(currentPost.getmCourse());
-//
-////        TextView locationView = (TextView) listItemView.findViewById(R.id.locationTextView);
-////        locationView.setText(currentPost.getmLatitude().toString());
-//
-//        TextView durationView = (TextView) listItemView.findViewById(R.id.durationTextView);
-//        durationView.setText(currentPost.getmDuration());
-//
-//    return listItemView;
-//    }
     @Override
     public int getCount() {
         return filteredList.size();

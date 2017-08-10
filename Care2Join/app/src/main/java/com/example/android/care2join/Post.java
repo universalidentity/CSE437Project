@@ -51,6 +51,7 @@ public class Post {
     }
 
     public String getmUserID() {return mUserID;}
+
     public String getmCourse() {
         return mCourse;
     }
@@ -58,16 +59,14 @@ public class Post {
     public String getmLongitude() {
         return mLongitude;
     }
+
     public String getmLatitude() {return mLatitude;}
 
     public String getmDuration() {
         return mDuration;
     }
-    public String getmEmail(){return mEmail;}
 
-//    public Duration getmDuration() {
-//        return mDuration;
-//    }
+    public String getmEmail(){return mEmail;}
 
     //Setters
     public void setmCourse(String mCourse) {
@@ -85,6 +84,7 @@ public class Post {
     public void setmDuration(String mDuration) {
         this.mDuration = mDuration;
     }
+
 //    public void setmDuration(Duration mDuration) {
 //        this.mDuration = mDuration;
 //    }

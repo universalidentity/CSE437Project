@@ -17,7 +17,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.ContextMenu;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,7 +26,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.Manifest;
 import android.location.LocationManager;
@@ -40,10 +38,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -59,12 +55,11 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 import java.util.ArrayList;
-import java.util.List;
 
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 /**
  * Created by qian on 4/5/17.
+ * Class for tabs for Map fragment, List fragment, and User Profile fragment
  */
 
 public class PageFragment extends Fragment implements LocationListener,OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener,GoogleApiClient.ConnectionCallbacks, SearchView.OnQueryTextListener{
@@ -76,7 +71,6 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
     private LocationManager mLocationManager;
     private android.location.LocationListener mLocationListener;
     private LocationRequest mLocationRequest;
-
 
     private static final LatLng mDefaultLocation = new LatLng(38.6488, -90.3108);
     private static final int DEFAULT_ZOOM = 18;
@@ -101,6 +95,11 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
 
     }
 
+    /**
+     * Creates instance of fragments
+     * @param page
+     * @return fragment instance
+     */
     public static PageFragment newInstance(int page) {
         PageFragment fragment = new PageFragment();
         Bundle args = new Bundle();
@@ -109,18 +108,11 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
         return fragment;
     }
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
-        //TextView txt = (TextView) rootView.findViewById(R.id.page_number_label);
         int page = getArguments().getInt(ARG_PAGE_NUMBER, -1);
         View rootView,mapRootView, listRootView, profileRootView;
-
 
         switch (page){
             case 0:
@@ -137,19 +129,14 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
                 rootView = inflater.inflate(R.layout.fragment_page_layout_userprofile, container, false);
                 initializeProfile(rootView);
                 return rootView;
-
             default:
                 rootView = inflater.inflate(R.layout.fragment_page_layout, container, false);
         }
-
         return rootView;
-
     }
 
     private void initializeMap(Bundle savedInstanceState){
-
             if(mGoogleApiClient != null){
-
                 SupportMapFragment mSupportMapFragment = (SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapwhere);
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -164,7 +151,6 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
                 }
                 createLocationRequest();
 
-
                 Log.d(TAG, "google api client null");
                 mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                         .enableAutoManage(getActivity() /* FragmentActivity */,
@@ -172,7 +158,6 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
                         .addConnectionCallbacks(this)
                         .addApi(LocationServices.API)
                         .build();
-
 
                 mGoogleApiClient.connect();
 
@@ -218,18 +203,10 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
                     fragmentTransaction.replace(R.id.mapwhere, mSupportMapFragment).commit();
                     mSupportMapFragment.getMapAsync(this);
                 } else {
-//            Log.d(TAG,"supportfragment not null");
-//            FragmentManager fragmentManager = getFragmentManager();
-//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//            fragmentTransaction.replace(R.id.mapwhere, mSupportMapFragment).commit();
                     mSupportMapFragment.getMapAsync(this);
                 }
-
             }
-
-
     }
-
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -248,13 +225,6 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
                 + connectionResult.getErrorCode());
     }
 
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//
-//        //stopLocationUpdates();
-//    }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -265,7 +235,6 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
         final DatabaseReference uDatabase = database.getReference("User_Posts");
         final FirebaseAuth mAuth;
         mAuth = FirebaseAuth.getInstance();
-
 
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -286,8 +255,6 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
                             .title(p.getmCourse()).position(new LatLng(Double.parseDouble(p.getmLatitude()),
                                     Double.parseDouble(p.getmLongitude()))));
                 }
-
-
             }
 
             @Override
@@ -302,20 +269,17 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
         };
         mDatabase.addValueEventListener(postListener);
 
-
         getDeviceLocation();
 
         mMap.setOnMarkerDragListener(new OnMarkerDragListener() {
             @Override
             public void onMarkerDragStart(Marker arg0) {
-                // TODO Auto-generated method stub
                 Log.d("System out", "onMarkerDragStart..."+arg0.getPosition().latitude+"..."+arg0.getPosition().longitude);
             }
 
             @SuppressWarnings("unchecked")
             @Override
             public void onMarkerDragEnd(Marker arg0) {
-                // TODO Auto-generated method stub
                 Log.d("System out", "onMarkerDragEnd..."+arg0.getPosition().latitude+"..."+arg0.getPosition().longitude);
 
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(arg0.getPosition()));
@@ -326,7 +290,6 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
 
             @Override
             public void onMarkerDrag(Marker arg0) {
-                // TODO Auto-generated method stub
                 Log.i("System out", "onMarkerDrag...");
             }
         });
@@ -346,7 +309,6 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
                 (mGoogleApiClient, mLocationRequest,this);
         Log.d(TAG, "Location update started");
     }
-
 
     protected void stopLocationUpdates() {
         if(mGoogleApiClient!=null) {
@@ -373,7 +335,6 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
             ActivityCompat.requestPermissions(getActivity(),
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-
         }
 
         //Uses FusedLocationAPI to set mLastKnownLocation
@@ -381,16 +342,10 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
             Log.d(TAG, "Permission Granted");
             mLastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         }
-
-        // Set the map's camera position to the current location of the device.
-//        if (mCameraPosition != null) {
-//            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
-//        } else
         if (mLastKnownLocation == null) {
             mLastKnownLocation = new Location("");
             mLastKnownLocation.setLatitude(mDefaultLocation.latitude);
             mLastKnownLocation.setLongitude(mDefaultLocation.longitude);
-
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng(mLastKnownLocation.getLatitude(),
@@ -402,45 +357,6 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
     }
-//    @Override
-//    public void onMapReady(GoogleMap googleMap) {
-//        mMap = googleMap;
-//
-//        mMap.setOnMyLocationButtonClickListener(this);
-//        enableMyLocation();
-//
-//        GoogleMapOptions options = new GoogleMapOptions();
-//        options.mapType(GoogleMap.MAP_TYPE_NORMAL);
-//        options.zoomControlsEnabled(true);
-//        options.zoomGesturesEnabled(true);
-//
-//        MapFragment.newInstance(options);
-//
-//        LatLng wustl = new LatLng(38.6, -90.3);
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(wustl, 20));
-//        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-//                == PackageManager.PERMISSION_GRANTED) {
-//            mMap.setMyLocationEnabled(true);
-//        } else {
-//            // Show rationale and request permission.
-//        }
-////        mMap.moveCamera(CameraUpdateFactory.newLatLng(wustl));
-//    }
-//    private void enableMyLocation() {
-//        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED) {
-//            // Permission to access the location is missing.
-//            PermissionUtils.requestPermission(getActivity(), LOCATION_PERMISSION_REQUEST_CODE,
-//                    Manifest.permission.ACCESS_FINE_LOCATION, true);
-//            Log.d(TAG,"no permission");
-//        } else if (mMap != null) {
-//            // Access to the location has been granted to the app.
-//            Log.d(TAG,"permission granted");
-//            mMap.setMyLocationEnabled(true);
-//        }
-//    }
-
-
 
     @Override
     public void onLocationChanged(Location location) {
@@ -454,11 +370,8 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
         currentMarker = mMap.addMarker(new MarkerOptions()
                 .title("Current").position(new LatLng(mLastKnownLocation.getLatitude(),
                         mLastKnownLocation.getLongitude())).draggable(true).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
-
         Log.d(TAG, "Location has been updated");
-
     }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -478,14 +391,12 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
 
     }
 
-
     private void initializeList(View rootView){
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.newPost);
 
         final ArrayList<Post> browsingList = new ArrayList<>();
         final PostAdapter adapter = new PostAdapter(getActivity(), browsingList);
         final ListView listView = (ListView) rootView.findViewById(R.id.postList);
-
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference mDatabase = database.getReference("Posts");
@@ -507,7 +418,6 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
 
                 }
                 listView.setAdapter(adapter);
-
             }
 
             @Override
@@ -520,6 +430,7 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
                 // [END_EXCLUDE]
             }
         };
+
         mDatabase.addValueEventListener(postListener);
         listView.setAdapter(adapter);
 
@@ -547,7 +458,6 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
         ListView listView = (ListView) getActivity().findViewById(R.id.postList);
         PostAdapter adapter = (PostAdapter) listView.getAdapter();
         adapter.getFilter().filter(s);
-//        listView.setAdapter(adapter);
         return false;
     }
 
@@ -569,7 +479,6 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
         final FirebaseUser user = mAuth.getCurrentUser();
         String userid = user.getUid();
         final DatabaseReference mDatabase = database.getReference("Posts");
-
 
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -600,7 +509,6 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
         Query allUserPosts = mDatabase.orderByChild("mUserID").equalTo(userid);
         allUserPosts.addValueEventListener(postListener);
 
-
         listView.setAdapter(adapter);
 
         registerForContextMenu(listView);
@@ -630,9 +538,8 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
                 intent.putExtra("mDuration",post.getmDuration());
                 startActivity(intent);
 
-
-
                 return true;
+
             case R.id.menuDelete:
                 Log.d(TAG,"delete info id "+ info.id);
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -652,13 +559,9 @@ public class PageFragment extends Fragment implements LocationListener,OnMapRead
                     }
                 });
 
-
                 return true;
             default:
                 return super.onContextItemSelected(item);
         }
-
     }
-
-
 }
